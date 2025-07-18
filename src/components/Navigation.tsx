@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { Menu, Search, User, MapPin, Phone, Mail } from 'lucide-react';
+import { Menu, Search, User, MapPin, Phone, Mail, LogOut } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navigation = () => {
   const [isOpen, setIsOpen] = useState(false);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -50,15 +52,29 @@ const Navigation = () => {
               <Search className="w-4 h-4" />
               Cari Alsintan
             </Button>
-            <Button variant="ghost" size="sm" asChild>
-              <Link to="/login">
-                <User className="w-4 h-4" />
-                Masuk
-              </Link>
-            </Button>
-            <Button size="sm" asChild>
-              <Link to="/register">Daftar</Link>
-            </Button>
+            {user ? (
+              <div className="flex items-center space-x-3">
+                <span className="text-sm text-muted-foreground">
+                  Halo, {user.email?.split('@')[0]}
+                </span>
+                <Button variant="outline" onClick={signOut} size="sm">
+                  <LogOut className="w-4 h-4" />
+                  Keluar
+                </Button>
+              </div>
+            ) : (
+              <>
+                <Button variant="ghost" size="sm" asChild>
+                  <Link to="/login">
+                    <User className="w-4 h-4" />
+                    Masuk
+                  </Link>
+                </Button>
+                <Button size="sm" asChild>
+                  <Link to="/register">Daftar</Link>
+                </Button>
+              </>
+            )}
           </div>
 
           {/* Mobile Menu */}
@@ -88,15 +104,29 @@ const Navigation = () => {
                     <Search className="w-4 h-4" />
                     Cari Alsintan
                   </Button>
-                  <Button className="w-full" variant="ghost" asChild>
-                    <Link to="/login">
-                      <User className="w-4 h-4" />
-                      Masuk
-                    </Link>
-                  </Button>
-                  <Button className="w-full" asChild>
-                    <Link to="/register">Daftar</Link>
-                  </Button>
+                  {user ? (
+                    <div className="space-y-3">
+                      <div className="text-sm text-muted-foreground text-center">
+                        Halo, {user.email?.split('@')[0]}
+                      </div>
+                      <Button className="w-full" variant="outline" onClick={signOut}>
+                        <LogOut className="w-4 h-4" />
+                        Keluar
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <Button className="w-full" variant="ghost" asChild>
+                        <Link to="/login">
+                          <User className="w-4 h-4" />
+                          Masuk
+                        </Link>
+                      </Button>
+                      <Button className="w-full" asChild>
+                        <Link to="/register">Daftar</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
 
                 <div className="border-t pt-6 space-y-3 text-sm text-muted-foreground">

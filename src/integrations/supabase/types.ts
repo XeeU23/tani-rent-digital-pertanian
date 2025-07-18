@@ -14,7 +14,183 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      alsintan_categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          icon_name: string | null
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          icon_name?: string | null
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      alsintan_equipment: {
+        Row: {
+          availability_status: string | null
+          category_id: string
+          created_at: string
+          description: string | null
+          id: string
+          image_urls: string[] | null
+          location: string
+          name: string
+          price_per_day: number
+          provider_id: string
+          specifications: Json | null
+          updated_at: string
+        }
+        Insert: {
+          availability_status?: string | null
+          category_id: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_urls?: string[] | null
+          location: string
+          name: string
+          price_per_day: number
+          provider_id: string
+          specifications?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          availability_status?: string | null
+          category_id?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_urls?: string[] | null
+          location?: string
+          name?: string
+          price_per_day?: number
+          provider_id?: string
+          specifications?: Json | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "alsintan_equipment_category_id_fkey"
+            columns: ["category_id"]
+            isOneToOne: false
+            referencedRelation: "alsintan_categories"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "alsintan_equipment_provider_id_fkey"
+            columns: ["provider_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      bookings: {
+        Row: {
+          created_at: string
+          end_date: string
+          equipment_id: string
+          id: string
+          notes: string | null
+          renter_id: string
+          start_date: string
+          status: string | null
+          total_days: number
+          total_price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          end_date: string
+          equipment_id: string
+          id?: string
+          notes?: string | null
+          renter_id: string
+          start_date: string
+          status?: string | null
+          total_days: number
+          total_price: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          end_date?: string
+          equipment_id?: string
+          id?: string
+          notes?: string | null
+          renter_id?: string
+          start_date?: string
+          status?: string | null
+          total_days?: number
+          total_price?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_equipment_id_fkey"
+            columns: ["equipment_id"]
+            isOneToOne: false
+            referencedRelation: "alsintan_equipment"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_renter_id_fkey"
+            columns: ["renter_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          full_name: string | null
+          id: string
+          location: string | null
+          organization: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+          user_type: string | null
+        }
+        Insert: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          location?: string | null
+          organization?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          user_type?: string | null
+        }
+        Update: {
+          created_at?: string
+          full_name?: string | null
+          id?: string
+          location?: string | null
+          organization?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          user_type?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
